@@ -29,10 +29,4 @@ public class Book {
         this.bookName = bookName;
     }
 
-    //    @ManyToMany
-//    @JoinTable(name = "books_authors",
-//            joinColumns = @JoinColumn(name = "book_id"),
-//            inverseJoinColumns = @JoinColumn(name = "author_id")
-//    )
-//    private Set<Author> authorSet;
 }
