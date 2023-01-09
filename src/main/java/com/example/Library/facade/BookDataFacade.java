@@ -1,5 +1,6 @@
 package com.example.Library.facade;
 
+import com.example.Library.Exception.ValidationException;
 import com.example.Library.data.Author;
 import com.example.Library.data.Book;
 import com.example.Library.dto.BookDto;
@@ -32,6 +33,15 @@ public class BookDataFacade {
     }
 
     public BookPostResponse createBookWithAuthors(@RequestBody BookAuthorRequest bookAuthorRequest) {
+
+        if (bookAuthorRequest.getBookName() == null) {
+            throw new ValidationException("Book title shouldn't be empty");
+        }
+
+        if (bookAuthorRequest.getAuthors() == null || bookAuthorRequest.getAuthors().stream()
+                .noneMatch(author -> author.getAuthorFullName() == null)) {
+            throw new ValidationException("Book should have at least one author");
+        }
 
         BookDto bookDto = new BookDto(bookAuthorRequest.getBookName());
         Book createdBook = bookService.createBook(modelMapper.map(bookDto, Book.class));

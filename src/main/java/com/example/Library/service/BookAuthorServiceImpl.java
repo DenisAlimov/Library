@@ -19,11 +19,6 @@ public class BookAuthorServiceImpl implements BookAuthorService {
     }
 
     @Override
-    public BookAuthor getBookAuthor(int id) {
-        return bookAuthorRepository.findById(id).get();
-    }
-
-    @Override
     public List<Author> getAuthorsByBookId(int id) {
         return bookAuthorRepository.findBookAuthorsByBook_Id(id)
                 .stream()
