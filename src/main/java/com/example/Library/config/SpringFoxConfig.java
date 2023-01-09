@@ -12,17 +12,15 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.ArrayList;
 
 @Configuration
-public class SpringfoxConfig {
-
+public class SpringFoxConfig {
     @Bean
-    public Docket docket() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
-
 //    @Bean
 //    public Docket docket() {
 //        return new Docket(DocumentationType.SWAGGER_2)

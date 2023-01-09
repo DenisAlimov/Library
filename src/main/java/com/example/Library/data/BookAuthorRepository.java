@@ -9,7 +9,4 @@ public interface BookAuthorRepository extends JpaRepository<BookAuthor, Integer>
 
     List<BookAuthor> findBookAuthorsByBook_Id(int id);
 
-    BookAuthor findBookAuthorByBook_Id(int id);
-
-//    @Query("")
 }

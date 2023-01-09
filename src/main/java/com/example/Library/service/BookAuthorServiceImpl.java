@@ -7,7 +7,6 @@ import com.example.Library.data.BookAuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,12 +17,6 @@ public class BookAuthorServiceImpl implements BookAuthorService {
     public BookAuthorServiceImpl(BookAuthorRepository bookAuthorRepository) {
         this.bookAuthorRepository = bookAuthorRepository;
     }
-
-//    @Override
-//    public Map<Book, List<Author>> getAllBooks() {
-//        return bookAuthorRepository.findAll().stream()
-//                .collect(Collectors.toMap(BookAuthor::getBook, BookAuthor::getAuthor));
-//    }
 
     @Override
     public BookAuthor getBookAuthor(int id) {
