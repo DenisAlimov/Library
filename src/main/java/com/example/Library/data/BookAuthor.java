@@ -1,11 +1,13 @@
 package com.example.Library.data;
 
+import io.swagger.annotations.ApiModel;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "book_author")
+@ApiModel(description = "data model of bookAuthor entity")
 public class BookAuthor {
 
     @Id

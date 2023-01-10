@@ -6,6 +6,7 @@ import com.example.Library.response.AuthorResponse;
 import com.example.Library.response.BookPostResponse;
 import com.example.Library.response.BookResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,15 +31,18 @@ public class BookController {
     }
 
     @GetMapping("/books")
+    @ApiOperation("method to get map of books")
     public List<BookResponse> getAllBooks() {
         return bookDataFacade.getBooksWithAuthors();
     }
 
+    @ApiOperation("method to get book by id")
     @GetMapping("/books/{id}")
     public BookResponse getBookById(@PathVariable int id) {
         return bookDataFacade.getBookById(id);
     }
 
+    @ApiOperation("method to get list of authors")
     @GetMapping("/authors")
     public List<AuthorResponse> getAllAuthors() {
         return bookDataFacade.getAuthors();

@@ -39,7 +39,7 @@ public class BookDataFacade {
         }
 
         if (bookAuthorRequest.getAuthors() == null || bookAuthorRequest.getAuthors().stream()
-                .noneMatch(author -> author.getAuthorFullName() == null)) {
+                .anyMatch(author -> author.getAuthorFullName() == null)) {
             throw new ValidationException("Book should have at least one author");
         }
 
