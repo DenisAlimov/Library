@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class BookDataFacade {
@@ -50,7 +51,7 @@ public class BookDataFacade {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(authorDto -> authorService.createAuthor(modelMapper.map(authorDto, Author.class)))
-                .toList();
+                .collect(Collectors.toList());
 
         createdAuthors
                 .forEach(author -> bookAuthorService.createBookAuthor(createdBook, author));
@@ -67,9 +68,9 @@ public class BookDataFacade {
                         .bookName(book.getBookName())
                         .authors(bookAuthorService.getAuthorsByBookId(book.getId()))
                         .build())
-                .toList()
+                .collect(Collectors.toList())
                 .stream()
-                .sorted().toList();
+                .sorted().collect(Collectors.toList());
     }
 
     public BookResponse getBookById(int id) {
@@ -88,8 +89,8 @@ public class BookDataFacade {
                         .authorFullName(author.getAuthorFullName())
                         .booksQty(bookAuthorService.countBookQuantity(author))
                         .build())
-                .toList()
+                .collect(Collectors.toList())
                 .stream()
-                .sorted().toList();
+                .sorted().collect(Collectors.toList());
     }
 }

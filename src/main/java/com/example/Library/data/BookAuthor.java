@@ -1,7 +1,7 @@
 package com.example.Library.data;
 
 import io.swagger.annotations.ApiModel;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Data

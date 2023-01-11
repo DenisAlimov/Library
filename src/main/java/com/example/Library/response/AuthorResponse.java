@@ -12,6 +12,6 @@ public class AuthorResponse implements Comparable<AuthorResponse> {
 
     @Override
     public int compareTo(AuthorResponse o) {
-        return o.authorFullName.compareTo(this.authorFullName);
+        return this.authorFullName.compareTo(o.authorFullName);
     }
 }

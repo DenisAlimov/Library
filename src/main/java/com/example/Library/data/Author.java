@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public class Author {
     private int id;
 
     @JsonProperty("authorFullName")
-    @ApiModelProperty(value = "full name of author", example = "Dan Brown", position = 2)
+    @ApiModelProperty(value = "full name of author", example = "Сергей ", position = 2)
     private String authorFullName;
 
     @OneToMany(mappedBy = "author")

@@ -3,7 +3,7 @@ package com.example.Library.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@ApiModel(description = "data model of book entity")
 @Table(name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "data model of book entity")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
