@@ -29,3 +29,4 @@ json:
 7. Сборка в Docker:
    docker build -t library . - создаем образ Docker
    docker-compose up -d - запускаем docker-compose (для работы с postgre)
+
