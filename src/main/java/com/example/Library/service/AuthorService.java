@@ -7,8 +7,8 @@ import java.util.List;
 
 @Service
 public interface AuthorService {
-    List<Author> getAuthors();
-    Author getAuthorById(int id);
+    List<Author> getAuthors(int page, int size);
+
     Author createAuthor(Author author);
-    void deleteAuthorById(int id);
+
 }

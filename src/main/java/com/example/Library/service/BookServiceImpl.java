@@ -5,6 +5,9 @@ import com.example.Library.Exception.NotFoundException;
 import com.example.Library.data.Book;
 import com.example.Library.data.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +19,16 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
 
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<Book> getAllBooks(int page, int size) {
+        Pageable nextPage = PageRequest.of(page, size);
+        Page<Book> pagedBooks = bookRepository.findAllByOrderByBookName(nextPage);
+        return pagedBooks.toList();
     }
 
     public Book createBook(Book book) {
@@ -40,11 +45,5 @@ public class BookServiceImpl implements BookService {
         }
         return book;
     }
-
-    @Override
-    public void deleteBookById(int id) {
-        bookRepository.deleteById(id);
-    }
-
 
 }

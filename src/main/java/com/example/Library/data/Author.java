@@ -4,15 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @ApiModel(description = "data model of author entity")
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "authors")
 public class Author {
     @Id
@@ -21,11 +28,15 @@ public class Author {
     private int id;
 
     @JsonProperty("authorFullName")
-    @ApiModelProperty(value = "full name of author", example = "Сергей ", position = 2)
+    @ApiModelProperty(value = "full name of author", example = "Сергей Васильевич Лукьяненко", position = 2)
     private String authorFullName;
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
-    private Set<BookAuthor> bookAuthor = new HashSet<>();
+    private List<BookAuthor> bookAuthor = new ArrayList<>();
 
+    public Author(int id, String authorFullName) {
+        this.id = id;
+        this.authorFullName = authorFullName;
+    }
 }

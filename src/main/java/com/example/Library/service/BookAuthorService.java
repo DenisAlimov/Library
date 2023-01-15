@@ -11,9 +11,5 @@ public interface BookAuthorService {
 
     List<Author> getAuthorsByBookId(int id);
 
-    List<Book> getBooksByAuthorId(int id);
-
     int createBookAuthor(Book book, Author author);
-
-    int countBookQuantity(Author author);
 }

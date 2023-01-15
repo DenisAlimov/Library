@@ -1,6 +1,7 @@
 package com.example.Library.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +13,13 @@ import lombok.Setter;
 public class SearchDto {
     private int ns;
     private String title;
+    @JsonProperty("pageId")
     private int pageid;
     private int size;
+    @JsonProperty("wordCount")
     private int wordcount;
     private String snippet;
+
     private String timestamp;
 
     @Override

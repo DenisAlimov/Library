@@ -1,5 +1,6 @@
 package com.example.Library.controllers;
 
+import com.example.Library.data.Wiki;
 import com.example.Library.facade.BookDataFacade;
 import com.example.Library.request.BookAuthorRequest;
 import com.example.Library.response.AuthorResponse;
@@ -32,8 +33,8 @@ public class BookController {
 
     @GetMapping("/books")
     @ApiOperation("method to get map of books")
-    public List<BookResponse> getAllBooks() {
-        return bookDataFacade.getBooksWithAuthors();
+    public List<BookResponse> getAllBooks(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return bookDataFacade.getBooksWithAuthors(page, size);
     }
 
     @ApiOperation("method to get book by id")
@@ -44,13 +45,13 @@ public class BookController {
 
     @ApiOperation("method to get list of authors")
     @GetMapping("/authors")
-    public List<AuthorResponse> getAllAuthors() {
-        return bookDataFacade.getAuthors();
+    public List<AuthorResponse> getAllAuthors(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return bookDataFacade.getAuthors(page, size);
     }
 
     @ApiOperation("method to get book information from wiki by id")
     @GetMapping("/books/{id}/wiki")
-    public ResponseEntity<String> getWikiInfo(@PathVariable int id) throws JsonProcessingException {
+    public ResponseEntity<Wiki> getWikiInfo(@PathVariable int id) throws JsonProcessingException {
         return ResponseEntity.ok(wikiService.getWiki(id));
     }
 }

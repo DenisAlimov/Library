@@ -27,24 +27,11 @@ public class BookAuthorServiceImpl implements BookAuthorService {
     }
 
     @Override
-    public List<Book> getBooksByAuthorId(int id) {
-        return bookAuthorRepository.findBookAuthorsByBook_Id(id)
-                .stream()
-                .map(BookAuthor::getBook)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public int createBookAuthor(Book book, Author author) {
         BookAuthor bookAuthor = new BookAuthor(author, book);
         System.out.println(book + " " + author + " " + bookAuthor);
         BookAuthor createdBookAuthor = bookAuthorRepository.save(bookAuthor);
         System.out.println(createdBookAuthor);
         return createdBookAuthor.getId();
-    }
-
-    @Override
-    public int countBookQuantity(Author author) {
-        return bookAuthorRepository.findBookAuthorsByAuthor_Id(author.getId()).size();
     }
 }

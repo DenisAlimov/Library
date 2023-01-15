@@ -2,6 +2,9 @@ package com.example.Library.service;
 
 import com.example.Library.data.Author;
 import com.example.Library.data.AuthorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,22 +19,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Author> getAuthors() {
-        return authorRepository.findAll();
-    }
-
-    @Override
-    public Author getAuthorById(int id) {
-        return authorRepository.findById(id).get();
+    public List<Author> getAuthors(int page, int size) {
+        Pageable nextPage = PageRequest.of(page, size);
+        Page<Author> pagedBooks = authorRepository.findAllByOrderByAuthorFullName(nextPage);
+        return pagedBooks.toList();
     }
 
     @Override
     public Author createAuthor(Author author) {
         return authorRepository.save(author);
-    }
-
-    @Override
-    public void deleteAuthorById(int id) {
-        authorRepository.deleteById(id);
     }
 }

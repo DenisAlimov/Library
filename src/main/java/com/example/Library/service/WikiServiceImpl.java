@@ -1,9 +1,7 @@
 package com.example.Library.service;
 
+import com.example.Library.data.Wiki;
 import com.example.Library.web.WikiClient;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,13 +17,8 @@ public class WikiServiceImpl implements WikiService {
     }
 
     @Override
-    public String getWiki(int id) throws JsonProcessingException {
-
+    public Wiki getWiki(int id) {
         String bookName = bookService.getBookById(id).getBookName();
-
-        ObjectMapper mapper = new ObjectMapper();
-        // Для вывода с отступами
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        return mapper.writeValueAsString(wikiClient.getSearchs(bookName));
+        return wikiClient.getSearchs(bookName);
     }
 }
