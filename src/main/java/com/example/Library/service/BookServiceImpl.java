@@ -2,48 +2,102 @@ package com.example.Library.service;
 
 
 import com.example.Library.Exception.NotFoundException;
+import com.example.Library.Exception.ValidationException;
+import com.example.Library.data.Author;
 import com.example.Library.data.Book;
+import com.example.Library.data.BookAuthor;
 import com.example.Library.data.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Library.request.BookAuthorRequest;
+import com.example.Library.response.BookPostResponse;
+import com.example.Library.response.BookResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.beans.Transient;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
 
+    private final AuthorService authorService;
+    private final BookAuthorService bookAuthorService;
+
     private final BookRepository bookRepository;
 
-    @Autowired
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(AuthorService authorService, BookAuthorService bookAuthorService, BookRepository bookRepository) {
+        this.authorService = authorService;
+        this.bookAuthorService = bookAuthorService;
         this.bookRepository = bookRepository;
-
     }
 
     @Override
-    public List<Book> getAllBooks(int page, int size) {
+    public List<BookResponse> getAllBooks(int page, int size) {
         Pageable nextPage = PageRequest.of(page, size);
         Page<Book> pagedBooks = bookRepository.findAllByOrderByBookName(nextPage);
-        return pagedBooks.toList();
+
+        return pagedBooks.toList().stream()
+                .map(book -> BookResponse.builder()
+                        .bookId(book.getId())
+                        .bookName(book.getBookName())
+                        .authors(book.getBookAuthor().stream()
+                                .map(BookAuthor::getAuthor)
+                                .collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
     }
 
-    public Book createBook(Book book) {
-        bookRepository.save(book);
-        return book;
+    @Transient
+    public BookPostResponse createBook(@RequestBody BookAuthorRequest bookAuthorRequest) {
+        if (bookAuthorRequest.getBookName() == null) {
+            throw new ValidationException("Book title shouldn't be empty");
+        }
+
+        if (bookRepository.findBookByBookName(bookAuthorRequest.getBookName()) != null) {
+            throw new ValidationException("You have already added this book");
+        }
+
+        if (bookAuthorRequest.getAuthors() == null || bookAuthorRequest.getAuthors().stream()
+                .anyMatch(author -> author.getAuthorFullName() == null)) {
+            throw new ValidationException("Book should have at least one author");
+        }
+
+        List<Author> requestAuthors = bookAuthorRequest.getAuthors();
+
+        List<BookAuthor> bookAuthors = bookAuthorRequest
+                .getAuthors()
+                .stream()
+                .map(author -> new BookAuthor(new Author(author.getId(), author.getAuthorFullName()), new Book(bookAuthorRequest.getBookName())))
+                .collect(Collectors.toList());
+
+        Book createdBook = bookRepository.save(new Book(0, bookAuthorRequest.getBookName(), bookAuthors));
+
+        authorService.createAuthors(requestAuthors, bookAuthors);
+
+        bookAuthorService.createBookAuthors(createdBook, requestAuthors);
+
+        return BookPostResponse.builder()
+                .id(createdBook.getId())
+                .build();
     }
 
-    public Book getBookById(int id) {
+    public BookResponse getBookById(int id) {
         Book book = null;
         try {
             book = bookRepository.findById(id).get();
         } catch (NoSuchElementException ex) {
             throw new NotFoundException("Книги с id=" + id + " нет в библиотеке");
         }
-        return book;
+        return BookResponse.builder()
+                .bookId(book.getId())
+                .bookName(book.getBookName())
+                .authors(book.getBookAuthor().stream()
+                        .map(BookAuthor::getAuthor)
+                        .collect(Collectors.toList()))
+                .build();
     }
-
 }

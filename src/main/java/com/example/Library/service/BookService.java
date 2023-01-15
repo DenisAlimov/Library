@@ -1,17 +1,20 @@
 package com.example.Library.service;
 
-import com.example.Library.data.Book;
+import com.example.Library.request.BookAuthorRequest;
+import com.example.Library.response.BookPostResponse;
+import com.example.Library.response.BookResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @Service
 public interface BookService {
 
-    List<Book> getAllBooks(int page, int size);
+    List<BookResponse> getAllBooks(int page, int size);
 
-    Book createBook(Book book);
+    BookPostResponse createBook(@RequestBody BookAuthorRequest bookAuthorRequest);
 
-    Book getBookById(int id);
+    BookResponse getBookById(int id);
 
 }

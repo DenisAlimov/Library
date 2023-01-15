@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface BookAuthorService {
 
-    List<Author> getAuthorsByBookId(int id);
-
     int createBookAuthor(Book book, Author author);
+
+    void createBookAuthors(Book book, List<Author> requestAuthors);
 }

@@ -53,12 +53,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
-    implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.3.Final'
-    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
-
 }
 
 tasks.named('test') {
