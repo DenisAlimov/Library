@@ -11,8 +11,8 @@ import java.util.List;
 public interface AuthorService {
     List<AuthorResponse> getAuthors(int page, int size);
 
-    Author createAuthor(Author author);
+    List<Author> createAuthors(List<Author> authors);
 
-    void createAuthors(List<Author> authors, List<BookAuthor> bookAuthors);
+//    void createAuthors(List<Author> authors, List<BookAuthor> bookAuthors);
 
 }

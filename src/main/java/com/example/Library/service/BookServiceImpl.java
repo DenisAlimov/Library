@@ -14,9 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -25,13 +25,11 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private final AuthorService authorService;
-    private final BookAuthorService bookAuthorService;
 
     private final BookRepository bookRepository;
 
-    public BookServiceImpl(AuthorService authorService, BookAuthorService bookAuthorService, BookRepository bookRepository) {
+    public BookServiceImpl(AuthorService authorService, BookRepository bookRepository) {
         this.authorService = authorService;
-        this.bookAuthorService = bookAuthorService;
         this.bookRepository = bookRepository;
     }
 
@@ -51,7 +49,7 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
-    @Transient
+//    @Transactional
     public BookPostResponse createBook(@RequestBody BookAuthorRequest bookAuthorRequest) {
         if (bookAuthorRequest.getBookName() == null) {
             throw new ValidationException("Book title shouldn't be empty");
@@ -68,17 +66,9 @@ public class BookServiceImpl implements BookService {
 
         List<Author> requestAuthors = bookAuthorRequest.getAuthors();
 
-        List<BookAuthor> bookAuthors = bookAuthorRequest
-                .getAuthors()
-                .stream()
-                .map(author -> new BookAuthor(new Author(author.getId(), author.getAuthorFullName()), new Book(bookAuthorRequest.getBookName())))
-                .collect(Collectors.toList());
+        authorService.createAuthors(requestAuthors);
 
-        Book createdBook = bookRepository.save(new Book(0, bookAuthorRequest.getBookName(), bookAuthors));
-
-        authorService.createAuthors(requestAuthors, bookAuthors);
-
-        bookAuthorService.createBookAuthors(createdBook, requestAuthors);
+        Book createdBook = bookRepository.save(new Book(bookAuthorRequest.getBookName(), requestAuthors));
 
         return BookPostResponse.builder()
                 .id(createdBook.getId())
