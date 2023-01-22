@@ -54,4 +54,5 @@
 7. Сборка в Docker:
    docker build -t library . - создаем образ Docker
    docker-compose up -d - запускаем docker-compose (для работы с postgre)
-
+8. Проверку работоспособности контроллеров можно осуществить при помощи Swagger по адресу:
+   http://localhost:8085/swagger-ui/
