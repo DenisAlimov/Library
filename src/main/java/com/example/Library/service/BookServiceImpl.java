@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
-//    @Transactional
+    @Transactional
     public BookPostResponse createBook(@RequestBody BookAuthorRequest bookAuthorRequest) {
         if (bookAuthorRequest.getBookName() == null) {
             throw new ValidationException("Book title shouldn't be empty");
