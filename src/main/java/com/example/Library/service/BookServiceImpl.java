@@ -10,6 +10,7 @@ import com.example.Library.data.BookRepository;
 import com.example.Library.request.BookAuthorRequest;
 import com.example.Library.response.BookPostResponse;
 import com.example.Library.response.BookResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +23,12 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final AuthorService authorService;
 
     private final BookRepository bookRepository;
-
-    public BookServiceImpl(AuthorService authorService, BookRepository bookRepository) {
-        this.authorService = authorService;
-        this.bookRepository = bookRepository;
-    }
 
     @Override
     public List<BookResponse> getAllBooks(int page, int size) {

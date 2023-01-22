@@ -8,4 +8,5 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     Page<Author> findAllByOrderByAuthorFullName(Pageable page);
 
+    Boolean existsByAuthorFullName(String authorFullName);
 }
