@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "wiki-client", url = "${wiki.path}") //${wiki.path}
+@FeignClient(value = "wiki-client", url = "${wiki.path}")
 public interface WikiClient {
 
     @RequestMapping(method = RequestMethod.GET,

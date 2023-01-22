@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 public class Query {
     private List<SearchDto> search;
 
-    public Query(@JsonProperty("search")List<SearchDto> search) {
+    public Query(@JsonProperty("search") List<SearchDto> search) {
         this.search = search;
     }
 }

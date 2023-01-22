@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Wiki {
     private Query query;
 
-    public Wiki(@JsonProperty("query")Query query) {
+    public Wiki(@JsonProperty("query") Query query) {
         this.query = query;
     }
 }

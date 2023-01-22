@@ -4,20 +4,20 @@ DROP TABLE IF EXISTS authors;
 
 CREATE TABLE authors
 (
-    id               INTEGER       NOT NULL,
+    id               INTEGER      NOT NULL,
     author_full_name VARCHAR(250) NOT NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE books
 (
-    id  SERIAL PRIMARY KEY,
+    id        SERIAL PRIMARY KEY,
     book_name VARCHAR(250) NOT NULL
 );
 
 
 CREATE TABLE book_author
 (
-    id  SERIAL PRIMARY KEY,
+    id        SERIAL PRIMARY KEY,
     book_id   INT NOT NULL,
     author_id INT NOT NULL,
     FOREIGN KEY (book_id) REFERENCES books (id),
@@ -33,7 +33,7 @@ values (4555, 'Двенадцать стульев');
 insert into authors (id, author_full_name)
 values (1111, 'Михаил Афанасьевич Булгаков');
 insert into authors (id, author_full_name)
-values (111, 'Илья Арнольдович Ильф'); --в примере json id 1111 дублируется с id Булгакова
+values (111, 'Илья Арнольдович Ильф');
 insert into authors (id, author_full_name)
 values (222, 'Евгений Петрович Петров');
 
