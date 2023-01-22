@@ -28,9 +28,7 @@ public class Author {
     @ApiModelProperty(value = "full name of author", example = "Сергей Васильевич Лукьяненко", position = 2)
     private String authorFullName;
 
-    @OneToMany(mappedBy = "author",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true)
+    @OneToMany(mappedBy = "author")
     @JsonIgnore
     private List<BookAuthor> bookAuthor = new ArrayList<>();
 
