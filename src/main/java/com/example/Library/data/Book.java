@@ -31,7 +31,8 @@ public class Book {
     @JsonIgnore
     @OneToMany(mappedBy = "book",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true)
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<BookAuthor> bookAuthor = new ArrayList<>();
 
 }
