@@ -35,9 +35,18 @@ public class BookServiceImplTest {
         // Arrange
         AuthorService authorService = new AuthorServiceImpl(authorRepository);
         int bookId = 1;
-        Book book = Book.builder().id(bookId).bookName("Ангелы и Демоны").build();
-        Author author = Author.builder().id(1).authorFullName("Дэн Браун").build();
-        Author author1 = Author.builder().id(2).authorFullName("Джоан Роулинг").build();
+        Book book = Book.builder()
+                .id(bookId)
+                .bookName("Ангелы и Демоны")
+                .build();
+        Author author = Author.builder()
+                .id(1)
+                .authorFullName("Дэн Браун")
+                .build();
+        Author author1 = Author.builder()
+                .id(2)
+                .authorFullName("Джоан Роулинг")
+                .build();
 
         BookAuthorRequest bookAuthorRequest = BookAuthorRequest.builder()
                 .bookName("Ангелы и Демоны")
@@ -56,6 +65,7 @@ public class BookServiceImplTest {
         //Assert
         assertThat(bookPostResponse.getId()).isEqualTo(bookId);
         assertThat(authorsAct).isEqualTo(authors);
+        verify(authorRepository, times(1)).saveAll(authors);
         verify(bookRepository, times(1)).save(any(Book.class));
     }
 }
