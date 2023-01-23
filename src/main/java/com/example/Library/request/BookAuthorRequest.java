@@ -10,8 +10,6 @@ import java.util.List;
 @Data
 @Builder
 public class BookAuthorRequest {
-    @JsonIgnore
-    private int id;
     private String bookName;
     private List<Author> authors;
 }

@@ -41,4 +41,12 @@ public class Book {
                 .map(author -> new BookAuthor(author, this))
                 .collect(Collectors.toList());
     }
+    public Book(int id, String bookName, List<Author> authors) {
+        this.id = id;
+        this.bookName = bookName;
+        this.bookAuthor = authors.stream()
+                .map(author -> new BookAuthor(author, this))
+                .collect(Collectors.toList());
+    }
+
 }
