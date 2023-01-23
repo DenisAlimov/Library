@@ -65,7 +65,8 @@ public class BookServiceImplTest {
         //Assert
         assertThat(bookPostResponse.getId()).isEqualTo(bookId);
         assertThat(authorsAct).isEqualTo(authors);
+        assertThat(bookRepository.save(book)).isEqualTo(book);
         verify(authorRepository, times(1)).saveAll(authors);
-        verify(bookRepository, times(1)).save(any(Book.class));
+        verify(bookRepository, times(1)).save(book); //Не знаю почему, но при добавлении assertThat на создание книги он перестал выдавать StackOverFlowError
     }
 }
