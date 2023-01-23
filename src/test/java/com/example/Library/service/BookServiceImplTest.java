@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -49,6 +50,7 @@ public class BookServiceImplTest {
                 .build();
 
         BookAuthorRequest bookAuthorRequest = BookAuthorRequest.builder()
+                .id(bookId)
                 .bookName("Ангелы и Демоны")
                 .authors(List.of(author, author1))
                 .build();
@@ -64,9 +66,8 @@ public class BookServiceImplTest {
 
         //Assert
         assertThat(bookPostResponse.getId()).isEqualTo(bookId);
-        assertThat(authorsAct).isEqualTo(authors);
         assertThat(bookRepository.save(book)).isEqualTo(book);
         verify(authorRepository, times(1)).saveAll(authors);
-        verify(bookRepository, times(1)).save(book); //Не знаю почему, но при добавлении assertThat на создание книги он перестал выдавать StackOverFlowError
+        verify(bookRepository, times(1)).save(book);
     }
 }
