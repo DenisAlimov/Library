@@ -11,6 +11,7 @@ import com.example.Library.request.BookAuthorRequest;
 import com.example.Library.response.BookPostResponse;
 import com.example.Library.response.BookResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -65,7 +66,14 @@ public class BookServiceImpl implements BookService {
 
         authorService.createAuthors(requestAuthors);
 
-        Book createdBook = bookRepository.save(new Book(bookAuthorRequest.getBookName(), requestAuthors));
+        val book = new Book();
+        book.setBookName(bookAuthorRequest.getBookName());
+        book.setBookAuthor(requestAuthors.stream()
+                .map(av -> new BookAuthor(av, book))
+                .collect(Collectors.toList())
+        );
+
+        Book createdBook = bookRepository.save(book);
 
         return BookPostResponse.builder()
                 .id(createdBook.getId())
@@ -87,10 +95,5 @@ public class BookServiceImpl implements BookService {
                         .collect(Collectors.toList()))
                 .build();
     }
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
-
 
 }

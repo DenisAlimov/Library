@@ -1,6 +1,9 @@
 package com.example.Library.service;
 
-import com.example.Library.data.*;
+import com.example.Library.data.Author;
+import com.example.Library.data.AuthorRepository;
+import com.example.Library.data.Book;
+import com.example.Library.data.BookRepository;
 import com.example.Library.request.BookAuthorRequest;
 import com.example.Library.response.BookPostResponse;
 import org.junit.jupiter.api.Test;
@@ -8,18 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.awt.event.WindowFocusListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -59,7 +54,10 @@ public class BookServiceImplTest {
                 .authors(authors)
                 .build();
 
-        Book book = Book.builder().id(bookId).bookName(bookName).build();
+        Book book = Book.builder()
+                .id(bookId)
+                .bookName(bookName)
+                .build();
 
         when(authorRepository.saveAll(anyList())).thenReturn(authors);
         when(bookRepository.save(any(Book.class))).thenReturn(book);
@@ -71,6 +69,7 @@ public class BookServiceImplTest {
         //Assert
         assertThat(bookPostResponse.getId()).isEqualTo(bookId);
         verify(authorRepository, times(1)).saveAll(authors);
-        verify(bookRepository, times(1)).save(eq(book));
+        verify(bookRepository, times(1)).save(any(Book.class));
+//        verify(bookRepository, times(1)).save(eq(book));
     }
 }

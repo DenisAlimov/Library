@@ -31,4 +31,13 @@ public class BookAuthor {
         this.author = author;
         this.book = book;
     }
+
+    @Override
+    public String toString() {
+        return "BookAuthor{" +
+                "id=" + id +
+                ", book=" + book.getBookName() +
+                ", author=" + author.getAuthorFullName() +
+                '}';
+    }
 }

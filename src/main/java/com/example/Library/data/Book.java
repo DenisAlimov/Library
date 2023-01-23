@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @ApiModel(description = "data model of book entity")
@@ -34,19 +33,5 @@ public class Book {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true)
     private List<BookAuthor> bookAuthor = new ArrayList<>();
-
-    public Book(String bookName, List<Author> authors) {
-        this.bookName = bookName;
-        this.bookAuthor = authors.stream()
-                .map(author -> new BookAuthor(author, this))
-                .collect(Collectors.toList());
-    }
-    public Book(int id, String bookName, List<Author> authors) {
-        this.id = id;
-        this.bookName = bookName;
-        this.bookAuthor = authors.stream()
-                .map(author -> new BookAuthor(author, this))
-                .collect(Collectors.toList());
-    }
 
 }
