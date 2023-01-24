@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.example'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+tasks.clean {
+    delete "${rootDir}/library.jar"
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+tasks.bootJar {
+    zip64 = true
+    archiveFileName = "library.jar"
+    doLast {
+        copy {
+            from "${rootDir}/build/libs/library.jar"
+            into "${rootDir}/"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-dependencies:2022.0.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.4'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter:2.3.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-jersey'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.springframework:spring-web:5.3.23'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
